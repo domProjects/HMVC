@@ -1,9 +1,4 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed');
-
-/* load MX core classes */
-require_once __DIR__ .'/Lang.php';
-require_once __DIR__ .'/Config.php';
-
+<?php
 /**
  * Modular Extensions - HMVC
  *
@@ -11,8 +6,8 @@ require_once __DIR__ .'/Config.php';
  * @link    http://codeigniter.com
  *
  * Description:
- * This library extends the CodeIgniter CI_Controller class and creates an application
- * object allowing use of the HMVC design pattern.
+ * This library extends the CodeIgniter CI_Controller class and creates an
+ * application object allowing use of the HMVC design pattern.
  *
  * Install this file as application/third_party/MX/Base.php
  *
@@ -36,35 +31,45 @@ require_once __DIR__ .'/Config.php';
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- **/
-class CI extends CI_Controller
-{
-    public static $APP;
+ */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * [__construct description]
- *
- * @method __construct
+ * load MX core classes
  */
-    public function __construct()
-    {
+require_once __DIR__.'/Lang.php';
+require_once __DIR__.'/Config.php';
 
-        /* assign the application instance */
-        self::$APP = $this;
+class CI extends CI_Controller
+{
+	public static $APP;
 
-        global $LANG, $CFG;
+	/**
+	 * [__construct description]
+	 *
+	 * @method __construct
+	 */
+	public function __construct()
+	{
+		// assign the application instance
+		self::$APP = $this;
 
-        /* re-assign language and config for modules */
-        if (! $LANG instanceof MX_Lang) {
-            $LANG = new MX_Lang;
-        }
-        if (! $CFG instanceof MX_Config) {
-            $CFG = new MX_Config;
-        }
+		global $LANG, $CFG;
 
-        parent::__construct();
-    }
+		// re-assign language and config for modules
+		if ( ! $LANG instanceof MX_Lang)
+		{
+			$LANG = new MX_Lang;
+		}
+
+		if ( ! $CFG instanceof MX_Config)
+		{
+			$CFG = new MX_Config;
+		}
+
+		parent::__construct();
+	}
 }
 
-/* create the application object */
+// create the application object
 new CI;

@@ -1,5 +1,4 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed');
-
+<?php
 /**
  * Modular Extensions - HMVC
  *
@@ -7,8 +6,8 @@
  * @link    http://codeigniter.com
  *
  * Description:
- * This library extends the CodeIgniter CI_Language class
- * and adds features allowing use of modules and the HMVC design pattern.
+ * This library extends the CodeIgniter CI_Language class and adds features
+ * allowing use of modules and the HMVC design pattern.
  *
  * Install this file as application/third_party/MX/Lang.php
  *
@@ -32,65 +31,81 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- **/
+ */
+defined('BASEPATH') or exit('No direct script access allowed');
+
 class MX_Lang extends CI_Lang
 {
-    /**
-     * [load description]
-     *
-     * @method load
-     *
-     * @param  [type]  $langfile   [description]
-     * @param  string  $lang       [description]
-     * @param  boolean $return     [description]
-     * @param  boolean $add_suffix [description]
-     * @param  string  $alt_path   [description]
-     * @param  string  $_module    [description]
-     *
-     * @return [type]              [description]
-     */
-    public function load($langfile, $lang = '', $return = false, $add_suffix = true, $alt_path = '', $_module = '')
-    {
-        if (is_array($langfile)) {
-            foreach ($langfile as $_lang) {
-                $this->load($_lang);
-            }
-            return $this->language;
-        }
+	/**
+	 * [load description]
+	 *
+	 * @method load
+	 *
+	 * @param  [type]  $langfile   [description]
+	 * @param  string  $lang       [description]
+	 * @param  boolean $return     [description]
+	 * @param  boolean $add_suffix [description]
+	 * @param  string  $alt_path   [description]
+	 * @param  string  $_module    [description]
+	 *
+	 * @return [type]              [description]
+	 */
+	public function load($langfile, $lang = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '', $_module = '')
+	{
+		if (is_array($langfile))
+		{
+			foreach ($langfile as $_lang)
+			{
+				$this->load($_lang);
+			}
 
-        $deft_lang = CI::$APP->config->item('language');
-        $idiom = ($lang === '') ? $deft_lang : $lang;
+			return $this->language;
+		}
 
-        if (in_array($langfile.'_lang'.EXT, $this->is_loaded, true)) {
-            return $this->language;
-        }
+		$deft_lang = CI::$APP->config->item('language');
+		$idiom = ($lang === '') ? $deft_lang : $lang;
 
-        $_module or $_module = CI::$APP->router->fetch_module();
+		if (in_array($langfile.'_lang'.EXT, $this->is_loaded, TRUE))
+		{
+			return $this->language;
+		}
 
-        // Backward function
-        // Before PHP 7.1.0, list() only worked on numerical arrays and assumes the numerical indices start at 0.
-        if (version_compare(phpversion(), '7.1', '<')) {
-            // php version isn't high enough
-            list($path, $_langfile) = Modules::find($langfile.'_lang', $_module, 'language/'.$idiom.'/');
-        } else {
-            [$path, $_langfile] = Modules::find($langfile.'_lang', $_module, 'language/'.$idiom.'/');
-        }
+		$_module or $_module = CI::$APP->router->fetch_module();
 
-        if ($path === false) {
-            if ($lang = parent::load($langfile, $lang, $return, $add_suffix, $alt_path)) {
-                return $lang;
-            }
-        } else {
-            if ($lang = Modules::load_file($_langfile, $path, 'lang')) {
-                if ($return) {
-                    return $lang;
-                }
-                $this->language = array_merge($this->language, $lang);
-                $this->is_loaded[] = $langfile.'_lang'.EXT;
-                unset($lang);
-            }
-        }
+		// Backward function
+		// Before PHP 7.1.0, list() only worked on numerical arrays and assumes the numerical indices start at 0.
+		if (version_compare(phpversion(), '7.1', '<'))
+		{
+			// php version isn't high enough
+			list($path, $_langfile) = Modules::find($langfile.'_lang', $_module, 'language/'.$idiom.'/');
+		}
+		else
+		{
+			[$path, $_langfile] = Modules::find($langfile.'_lang', $_module, 'language/'.$idiom.'/');
+		}
 
-        return $this->language;
-    }
+		if ($path === FALSE)
+		{
+			if ($lang = parent::load($langfile, $lang, $return, $add_suffix, $alt_path))
+			{
+				return $lang;
+			}
+		}
+		else
+		{
+			if ($lang = Modules::load_file($_langfile, $path, 'lang'))
+			{
+				if ($return)
+				{
+					return $lang;
+				}
+
+				$this->language = array_merge($this->language, $lang);
+				$this->is_loaded[] = $langfile.'_lang'.EXT;
+				unset($lang);
+			}
+		}
+
+		return $this->language;
+	}
 }

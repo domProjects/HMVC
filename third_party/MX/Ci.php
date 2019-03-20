@@ -1,9 +1,4 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed');
-
-/* load MX core classes */
-require_once __DIR__ .'/Lang.php';
-require_once __DIR__ .'/Config.php';
-
+<?php
 /**
  * Modular Extensions - HMVC
  *
@@ -35,7 +30,15 @@ require_once __DIR__ .'/Config.php';
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- **/
+ */
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * load MX core classes
+ */
+require_once __DIR__.'/Lang.php';
+require_once __DIR__.'/Config.php';
+
 class CI
 {
     public static $APP;
@@ -47,21 +50,23 @@ class CI
      */
     public function __construct()
     {
-
-        /* assign the application instance */
+        // assign the application instance
         self::$APP = CI_Controller::get_instance();
 
         global $LANG, $CFG;
 
-        /* re-assign language and config for modules */
-        if (! $LANG instanceof MX_Lang) {
+        // re-assign language and config for modules
+        if ( ! $LANG instanceof MX_Lang)
+        {
             $LANG = new MX_Lang;
         }
-        if (! $CFG instanceof MX_Config) {
+
+        if ( ! $CFG instanceof MX_Config)
+        {
             $CFG = new MX_Config;
         }
     }
 }
 
-/* create the application object */
+// create the application object
 new CI;

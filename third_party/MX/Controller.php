@@ -1,8 +1,4 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed');
-
-/** load the CI class for Modular Extensions **/
-require_once __DIR__ .'/Base.php';
-
+<?php
 /**
  * Modular Extensions - HMVC
  *
@@ -35,41 +31,47 @@ require_once __DIR__ .'/Base.php';
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- **/
+ */
+defined('BASEPATH') or exit('No direct script access allowed');
+
+/**
+ * load the CI class for Modular Extensions
+ */
+require_once __DIR__.'/Base.php';
+
 class MX_Controller
 {
-    public $autoload = array();
+	public $autoload = [];
 
-    /**
-     * [__construct description]
-     *
-     * @method __construct
-     */
-    public function __construct()
-    {
-        $class = str_replace(CI::$APP->config->item('controller_suffix'), '', get_class($this));
-        log_message('debug', $class.' MX_Controller Initialized');
-        Modules::$registry[strtolower($class)] = $this;
+	/**
+	 * [__construct description]
+	 *
+	 * @method __construct
+	 */
+	public function __construct()
+	{
+		$class = str_replace(CI::$APP->config->item('controller_suffix'), '', get_class($this));
+		log_message('debug', $class.' MX_Controller Initialized');
 
-        /* copy a loader instance and initialize */
-        $this->load = clone load_class('Loader');
-        $this->load->initialize($this);
+		Modules::$registry[strtolower($class)] = $this;
 
-        /* autoload module items */
-        $this->load->_autoloader($this->autoload);
-    }
+		// copy a loader instance and initialize
+		$this->load = clone load_class('Loader');
+		$this->load->initialize($this);
 
-    /**
-     * [__get description]
-     *
-     * @method __get
-     *
-     * @param  [type] $class [description]
-     *
-     * @return [type]        [description]
-     */
-    public function __get($class)
-    {
-        return CI::$APP->$class;
-    }
+		// autoload module items
+		$this->load->_autoloader($this->autoload);
+	}
+
+	/**
+	 * [__get description]
+	 *
+	 * @method __get
+	 * @param  [type] $class [description]
+	 * @return [type]        [description]
+	 */
+	public function __get($class)
+	{
+		return CI::$APP->$class;
+	}
 }
